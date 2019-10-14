@@ -43,3 +43,83 @@ $locationhistoryunqiue = $locationhistory | Group-Object 'x','y' |
   Sort-Object 'x','y'
 
 Write-Host "The number of houses presents are delivered to is $($locationhistoryunqiue.count)"
+
+
+$locationhistoryfull = New-Object System.Collections.ArrayList
+$currentlocation1 = [pscustomobject][ordered] @{
+    x = 0
+    y = 0
+}
+$currentlocation2 = [pscustomobject][ordered] @{
+    x = 0
+    y = 0
+}
+$currentposition = 0
+
+ForEach($step in $directions){
+$currentposition++
+
+if ($currentposition % 2 -eq 1) {
+    if($step -eq '^'){
+        $currentlocation1 = [pscustomobject][ordered] @{
+            x = $currentlocation1.x
+            y = $currentlocation1.y+1
+        }
+    }  
+    if($step -eq 'v'){
+        $currentlocation1 = [pscustomobject][ordered] @{
+            x = $currentlocation1.x
+            y = $currentlocation1.y-1
+            }
+    }
+    if($step -eq '<'){
+        $currentlocation1 = [pscustomobject][ordered] @{
+            x = $currentlocation1.x-1
+            y = $currentlocation1.y
+                }
+    }
+    if($step -eq '>'){
+        $currentlocation1 = [pscustomobject][ordered] @{
+            x = $currentlocation1.x+1
+            y = $currentlocation1.y
+                    }
+    }
+
+$locationhistoryfull.add($currentlocation1) | Out-Null
+}
+ 
+if ($currentposition % 2 -eq 0){
+if($step -eq '^'){
+    $currentlocation2 = [pscustomobject][ordered] @{
+        x = $currentlocation2.x
+        y = $currentlocation2.y+1
+    }
+}  
+if($step -eq 'v'){
+    $currentlocation2 = [pscustomobject][ordered] @{
+        x = $currentlocation2.x
+        y = $currentlocation2.y-1
+        }
+}
+if($step -eq '<'){
+    $currentlocation2 = [pscustomobject][ordered] @{
+        x = $currentlocation2.x-1
+        y = $currentlocation2.y
+            }
+}
+if($step -eq '>'){
+    $currentlocation2 = [pscustomobject][ordered] @{
+        x = $currentlocation2.x+1
+        y = $currentlocation2.y
+                }
+}
+
+$locationhistoryfull.add($currentlocation2) | Out-Null
+}
+}
+
+$locationhistoryfullunqiue = $locationhistoryfull | Group-Object 'x','y' | 
+  %{ $_.Group | Select 'x','y' -First 1} | 
+  Sort-Object 'x','y'
+
+Write-Host "The number of houses presents are delivered with 2 Santas is $($locationhistoryfullunqiue.count)"
