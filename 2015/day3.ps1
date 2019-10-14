@@ -39,7 +39,7 @@ $locationhistory.add($currentlocation) | Out-Null
 }
 
 $locationhistoryunqiue = $locationhistory | Group-Object 'x','y' | 
-  %{ $_.Group | Select 'x','y' -First 1} | 
+  ForEach-Object{ $_.Group | Select-Object 'x','y' -First 1} | 
   Sort-Object 'x','y'
 
 Write-Host "The number of houses presents are delivered to is $($locationhistoryunqiue.count)"
@@ -119,7 +119,7 @@ $locationhistoryfull.add($currentlocation2) | Out-Null
 }
 
 $locationhistoryfullunqiue = $locationhistoryfull | Group-Object 'x','y' | 
-  %{ $_.Group | Select 'x','y' -First 1} | 
+  ForEach-Object{ $_.Group | Select-Object 'x','y' -First 1} | 
   Sort-Object 'x','y'
 
 Write-Host "The number of houses presents are delivered with 2 Santas is $($locationhistoryfullunqiue.count)"
