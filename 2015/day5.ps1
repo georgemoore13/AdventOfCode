@@ -13,3 +13,4 @@ Write-Host "The number of good strings for part 1 is $($goodstrings.count)"
 
 
 $stringinput -split "`n" | ?{ $_ -match "(..).*\1" -and $_ -match "(.).\1" } | measure | % count
+#I cheated and googled this answer ^^
